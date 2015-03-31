@@ -1,0 +1,1136 @@
+---
+guid: 90c41c458792b9a60f5b
+installation_version: '1.2'
+infrastructure:
+  type: vsphere
+  director_configuration:
+    resurrector_enabled: false
+    ntp_servers:
+    - time.apple.com
+  networks:
+  - guid: cd108c7f576eb27d42bb
+    name: VM Network
+    iaas_network_identifier: VM Network
+    subnet: 10.9.8.0/24
+    dns: 8.8.8.8
+    gateway: 10.9.8.1
+    reserved_ip_ranges: 10.9.8.1-10.9.8.30,10.9.8.200-10.9.8.255
+  availability_zones:
+  - guid: 752ed7e734e090230cf4
+    name: Cluster
+    cluster: Cluster
+    resource_pool: ''
+  iaas_configuration:
+    datacenter: Datacenter
+    vcenter_ip: 10.9.8.20
+    vcenter_username: root
+    vcenter_password: Cl0udFoundry
+    datastores:
+    - bigdisk
+  file_system:
+    microbosh_vm_folder: pivotal_cf_vms_90c41c458792b9a60f5b
+    microbosh_template_folder: pivotal_cf_templates_90c41c458792b9a60f5b
+    microbosh_disk_path: pivotal_cf_disk_90c41c458792b9a60f5b
+products:
+- type: microbosh
+  guid: microbosh-51a35ebbccbf5807ab8d
+  installation_name: microbosh-51a35ebbccbf5807ab8d
+  product_version: 1.3.4.0
+  singleton_availability_zone_reference: 752ed7e734e090230cf4
+  ips:
+    director-part-d8f1c3f1a454f98a4277:
+    - 10.9.8.31
+  jobs:
+  - type: director
+    guid: director-03a877cafecbf729d57a
+    installation_name: director
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 3072
+    - definition: ephemeral_disk
+      value: 16384
+    - definition: persistent_disk
+      value: 20480
+    - definition: cpu
+      value: 4
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 89976c4e2bc261e7
+        password: e3ea339a789ecbd2
+    - definition: agent_credentials
+      value:
+        identity: vcap
+        password: e751a1ec1e109f92b69c
+    - definition: director_credentials
+      value:
+        identity: director
+        password: f1c69f1c795eb99b1393
+    - definition: nats_credentials
+      value:
+        identity: nats
+        password: f6c0ae559a38e72d0d28
+    - definition: redis_credentials
+      value:
+        identity: redis
+        password: a29963ec99d4619f1379
+    - definition: postgres_credentials
+      value:
+        identity: postgres
+        password: b90aae859a08828929b8
+    - definition: blobstore_credentials
+      value:
+        identity: blobstore
+        password: b17b9fd42ebd4c779145
+    - definition: health_monitor_credentials
+      value:
+        identity: health_monitor
+        password: f78e27878fef16dac28e
+    - definition: director_ssl
+      value:
+        private_key_pem: |
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEpAIBAAKCAQEAzavGOezgebHVfp/xrenD18VXmfL8BwLIafNw2O1aUqkcJ6wh
+          WOXA3QR2fmZEc5vP+yEzK/gIT9Rx+2rMBbxUr9HFdqLQKLJfxEM7oBoclH6wDHwE
+          2OqLh11WIEdK/ThqKEJ0Z0czn5vmko31PKI4vKlh4EES4VpgR4QQ7CiL+jpkxf/M
+          F5xO5Gs0k3qwnrSw0Y+2JGkBO3wFUB0v4DEi+yiCYDAg0T3YmhClf/74/CjFCbR8
+          eVd3Yu1OstnozuYXwahHfld6Y8Q19xut4ADBl459MI51gNktsP9T7ZQlDwadSYRl
+          DRjuUrAlys/+9BVMe81RPQrkNKzAmekw/VPxDwIDAQABAoIBAQCEJFhhATOcnMiZ
+          6bPC1I3yxSUqkXaiHoSbpkCb76v3rhWb27k1P7CxkFt9jMFwMezn4gXZuyvD9rAh
+          JBXfnYgfyrx/I85wR2LGW5gknoI8WkVMUCZhJBjvqOVcKdIhbayvHztg29tsMiNr
+          h+/HvEaN2Jo9FjJGPeXcLRseUFLXOqRUknx2ZJrDJxrlGxutA4Tpx0Nlb+AhR3My
+          TzWeHLpVxbkxRGTkbiXoye0ttsscPIaGRP1ufWKmLbbQKOaLcQSMoATvxS+qw9No
+          +8P17TwDY4qf/LXTt9yJED5Ro9OU9mSyIVXulovBjr67F2ebyGtl7P+m/Ng2jCi0
+          wdk88wxxAoGBAO4Hs35cqPCCYO1FA9cKZXgoExZeiIZR0B0PGjGV62oJVLXYCWpm
+          wwgLUfnyHSAIHPJTKDwWcV1es1fDeYS6xXWby7UrOZH8NFLnoSU+NdQixjurOWdA
+          HVD5gR8xJ95ccV1KrYNieNH1R7c3p91O5ysaH9O4G4I1bZR0Xka3r7UHAoGBAN0y
+          rw6JwL9sXtXc+TtBfvpr/sKU0uT/VIOXz09QIANblAEdmytP9aqF5+WpG4VjEIrd
+          JSJ7swGukp0L9xqHohoJYW9cf0QqnyoPmWOHd1fx/cagrUrN9+LQseTJvJm3xOlF
+          Tz99WkuBseXau5qIqPCy60HN1yXPrTI1a2juxCm5AoGAPgQtpOeZcIhXnpoTpQxl
+          YYf3aSWaJnzcXyXXKkIoQslJk9NEqL87YzYn1ppZMkZK3GwEGJu0T6Jj0aLxXz6W
+          Qc0kpwArELkIHO2Sk7SAq9OfmF5FJ3yR5s4K8UiKXanyM19Ik+mtFu70D21lxAhR
+          vG4jCrN2H1eyRDKJeZ1UHzMCgYBbI7YDXHjhpopQvhKm+q6SCgtXKzDWD+pHqjZN
+          7Kq0F3idGRDFQNXtI+1PsGTZid7YCJRzZ9py1/Yq5TI0aSw+ZB0UYF1DvfgEwZam
+          7rsarmes/qlISCNZ/jk+Fm0yPQjSQK+Nbl3U/KRLG9vuqV5Khr3uSBzcxHwNUvtl
+          qfODaQKBgQC4zNwDfXFoZqqpprUFIAebbSQr4NpCpHT1WJSElx10F+Ka9Ki6APUe
+          d5Q4Z2ixLPhVp70f7//5OjL2ZyqDAcKabWaoYl6GbeXT8bN90RRzlr4EpRd4RSym
+          +BBUBP9WeV5G/X3ZUFZdlNISfVrTWSibbbHRPjIEVu6uP7ZRXtdBcQ==
+          -----END RSA PRIVATE KEY-----
+        csr_pem: |
+          -----BEGIN CERTIFICATE REQUEST-----
+          MIICezCCAWMCAQAwNjELMAkGA1UEBhMCVVMxEDAOBgNVBAoMB1Bpdm90YWwxFTAT
+          BgNVBAMMDGRpcmVjdG9yX3NzbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+          ggEBAM2rxjns4Hmx1X6f8a3pw9fFV5ny/AcCyGnzcNjtWlKpHCesIVjlwN0Edn5m
+          RHObz/shMyv4CE/UcftqzAW8VK/RxXai0CiyX8RDO6AaHJR+sAx8BNjqi4ddViBH
+          Sv04aihCdGdHM5+b5pKN9TyiOLypYeBBEuFaYEeEEOwoi/o6ZMX/zBecTuRrNJN6
+          sJ60sNGPtiRpATt8BVAdL+AxIvsogmAwINE92JoQpX/++PwoxQm0fHlXd2LtTrLZ
+          6M7mF8GoR35XemPENfcbreAAwZeOfTCOdYDZLbD/U+2UJQ8GnUmEZQ0Y7lKwJcrP
+          /vQVTHvNUT0K5DSswJnpMP1T8Q8CAwEAAaAAMA0GCSqGSIb3DQEBBQUAA4IBAQCE
+          3JeDQMCW/jwnWXnnyM/UZ3GIxIzwkPgsnKDcMrQ9B+bPwh7OEXgNy1Zu04uzxw6+
+          /Diqk/9EnK09vT1vxbIXJmAPvoxzbqJxmrIB4drSGf9Df66A8wUbr/NCf5bg04av
+          Q2o55YxfFuLNsOTtE/lKht4nqqOoLoRLybiJ6WVTnieD+hiPBoW7h6aAM2/CKIYC
+          1MXlUThF4jE7Jm43+y7Ah0HNDluv/Fc60b8HK0x4JVmxY71l+DXQXIfRlGSiPFo/
+          2jtZar0nMbziHE6FibauqiRJbNZNki74QDQYNNHt5aQjbbkJHYPeubupf80kPre/
+          rRpzaBU6X9m6UUXGTCwe
+          -----END CERTIFICATE REQUEST-----
+        cert_pem: |
+          -----BEGIN CERTIFICATE-----
+          MIIC+TCCAeGgAwIBAgIVAKcRF1fPUYbX2C/F5wyZlpA4kAbKMA0GCSqGSIb3DQEB
+          BQUAMDYxCzAJBgNVBAYTAlVTMRAwDgYDVQQKDAdQaXZvdGFsMRUwEwYDVQQDDAxk
+          aXJlY3Rvcl9zc2wwHhcNMTUwMjIwMjMzODA4WhcNMTcwMjE5MjMzODA4WjA2MQsw
+          CQYDVQQGEwJVUzEQMA4GA1UECgwHUGl2b3RhbDEVMBMGA1UEAwwMZGlyZWN0b3Jf
+          c3NsMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzavGOezgebHVfp/x
+          renD18VXmfL8BwLIafNw2O1aUqkcJ6whWOXA3QR2fmZEc5vP+yEzK/gIT9Rx+2rM
+          BbxUr9HFdqLQKLJfxEM7oBoclH6wDHwE2OqLh11WIEdK/ThqKEJ0Z0czn5vmko31
+          PKI4vKlh4EES4VpgR4QQ7CiL+jpkxf/MF5xO5Gs0k3qwnrSw0Y+2JGkBO3wFUB0v
+          4DEi+yiCYDAg0T3YmhClf/74/CjFCbR8eVd3Yu1OstnozuYXwahHfld6Y8Q19xut
+          4ADBl459MI51gNktsP9T7ZQlDwadSYRlDRjuUrAlys/+9BVMe81RPQrkNKzAmekw
+          /VPxDwIDAQABMA0GCSqGSIb3DQEBBQUAA4IBAQA35Uy9DfR8l55lXvvrOjdwlEi0
+          DHtJOSU0iAVna7wCXZyFKmfD3C/u7H7nF4slEv0rsRqPIw8mDiDo3oBFdUl4iL/p
+          DqDqZF9/rYW3/CS+e6+wwKe9XoD9JgMqhuLOKqTuHOcmp5yJF/7N1I3jkrv0Cbco
+          BqOs8WBOwxjtmp5P1jo1664Ii3uo1BX0MWiKNyj5TUgujaFYWBatDHwwvJAJdEPx
+          lB9xpTymn2UOP5V+jJOLppcrWs3thriq9wumZI3nQ2L82yVJMAeYV/aCXR976p+c
+          qT/me1XPiHQXthD2GAQS1xdgLZwEmhQ0jgGeyvoGx1t6a1afq2xcfBH88VWH
+          -----END CERTIFICATE-----
+    partitions:
+    - guid: director-part-d8f1c3f1a454f98a4277
+      installation_name: director-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  infrastructure_network_reference: cd108c7f576eb27d42bb
+  deployment_network_reference: cd108c7f576eb27d42bb
+- type: cf
+  guid: cf-e005357f2a17eb31e012
+  installation_name: cf-e005357f2a17eb31e012
+  product_version: 1.3.4.0
+  singleton_availability_zone_reference: 752ed7e734e090230cf4
+  availability_zone_references:
+  - 752ed7e734e090230cf4
+  ips:
+    ha_proxy-part-c8d190e115dc649e7fca:
+    - 10.9.8.40
+    nats-part-3cd6f76391d1ff0e8ed9:
+    - 10.9.8.32
+    etcd_server-part-31361622c3a52bd90c08:
+    - 10.9.8.33
+    health_manager-part-32d28c28c2e27d515e53:
+    - 10.9.8.34
+    nfs_server-part-38b3c09232296014724c:
+    - 10.9.8.35
+    ccdb-part-02dcbf1cd771beac5015:
+    - 10.9.8.36
+    cloud_controller-part-1f43ef100b61b15dd354:
+    - 10.9.8.37
+    clock_global-part-dc541112ce1e7e118c58:
+    - 10.9.8.38
+    cloud_controller_worker-part-911a89df1c040e9147f1:
+    - 10.9.8.39
+    router-part-91941a80d971861fe44e:
+    - 10.9.8.41
+    collector-part-80d7fddd73618fa4f806: []
+    uaadb-part-33070253dcbd7805605a:
+    - 10.9.8.42
+    uaa-part-718d560b8785fc726c85:
+    - 10.9.8.43
+    login-part-c9f6973a7c9d791fb383:
+    - 10.9.8.44
+    consoledb-part-a4f0d9f1ee66c8ec5a80:
+    - 10.9.8.45
+    mysql-part-d5c111052dc05505ed0c:
+    - 10.9.8.46
+    dea-part-011a5593cd753d0512de:
+    - 10.9.8.47
+    loggregator-part-21bf71bcf5ae12b05bf7:
+    - 10.9.8.48
+    loggregator_trafficcontroller-part-c1814692f65788991ca5:
+    - 10.9.8.49
+    push-console-part-74225894c3a17890a317:
+    - 10.9.8.50
+    push-app-usage-service-part-3bf087c0fe2eb4e4e8e3:
+    - 10.9.8.51
+    smoke-tests-part-ebc3067cb588b6545ade:
+    - 10.9.8.52
+    acceptance-tests-part-67e3e73dd18f8ce7ea70:
+    - 10.9.8.53
+    compilation-part-cb06e2a37bfedde5a10b:
+    - 10.9.8.54
+    - 10.9.8.55
+    - 10.9.8.56
+    - 10.9.8.57
+    dynamic_for_static:
+    - 10.9.8.58
+    - 10.9.8.59
+    - 10.9.8.60
+    - 10.9.8.61
+    - 10.9.8.62
+    - 10.9.8.63
+    - 10.9.8.64
+    - 10.9.8.65
+    - 10.9.8.66
+    - 10.9.8.67
+    - 10.9.8.68
+  network_reference: cd108c7f576eb27d42bb
+  jobs:
+  - type: ha_proxy
+    guid: ha_proxy-81939b7ed6b495178b22
+    installation_name: ha_proxy
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: b3d72212d2bca214
+        password: 65a54aa1b2d531ee
+    - definition: static_ips
+      value: 10.9.8.40
+    - definition: ssl_rsa_certificate
+      value:
+        private_key_pem: "-----BEGIN RSA PRIVATE KEY-----\r\nMIIEpAIBAAKCAQEAqNlmcDkVKAB43ehfEgBKeWdtOCgOMLQqRTpp1EFrT6fbp6eY\r\nNzuzaRFTMZwJJBHFC18fKlQMLvkt7fyc//ZbupIlgxZ2c1HmSM/xBmcNCJlQmrHJ\r\nqqFAKc9XzZcqN+ihsRBn9dM48kHxE5a69qJGGvonW9o8hvuLK6fIzh3K3IjdSzTW\r\niAkTkCg0qoFjpePV31kZcUeL/PAvcVGqmIZk/N1eZwoE1jlLfxRqJ/5L2TX0NmyS\r\nByt1K4QSsa/NR2LzV5hZBmwdSZCp7rgsnlCD0WoiTAGTtxwIiJ9tY1kcfp7OUMCZ\r\ndJCbFwWB0souWLjYo4BlIAxwcW7Yb49K8adIKwIDAQABAoIBAGlb7p3MILVrRgBC\r\nBUC4ScBjlzVZWTFu2omEH5FAmPOFbHy7CTI94H+JPf5QvStyox+rZUkGVOvitJQx\r\n8s2NLkPG+f1IQPVIf4ejqWQzXWCmOjOtCIeeQulT5hf1YXSthmd0M0qjWH9iQknU\r\n3ikTrOccfP7FuMsJnxfIhHaJBJKDGOySt1KoZ2Z7tJNUr1jHuSksgLBNwMRFVoRP\r\nWSGUFQiL0xiQYszeF+skLvE2n9As2ZoRLAsXrcK+Kihy3vlzGhSq+BXWfoBUjLmV\r\nn8DjVGV+yyEbqjtkAXUFMkkjA5PLRPXqP9jO0GueA4OLpoZxoXq7Ny+h+B4Y1D11\r\nc0AFsoECgYEA1mBIvh1eGD2CAVkwnB8j212vLFiWRN6GjGSHuo/Jh4NI49XE6BoC\r\nMsDGu/kXbbZ7M16C+hHYy7wh3bgynrznjPVYIAEEEFBEUiLscu8R5SDIoDLdls5o\r\nMSUWt3ZIDUE1d8GbvD5Cvob9ycKiA+MTwkggb45kANnJ/GNdtSyq/+ECgYEAyaIr\r\ndevXGjrHYoMgG/c8qtXDjknk3eL3WQugEtwFRyqSg+4cPORGMOl/Vbthgkhcakkj\r\n3J4FfqN0mx9xl3uoXOHmZfancC2zekAxlMJkyS2jK2JUG2n/MepvT8Jjxp4pfjc1\r\nDd8VoDM9jHVGagYdOz01mqEwMZeQHIy9gY19eYsCgYAkmMNSUUki8j0jZcp6nIZO\r\niKvC8kyU7Tgi93aETs+kprDm1DONPANsDqTeqiNpw2E838GUVz+faDqP00Yw+ya8\r\nVZX5wLKk5k8Dhpq+9Dkl2Hbngkd52zrGSQKbx0F9ocgy7YZcmHRkej8RFnz6FOXm\r\noNGIudIwov1sbLoul7WJgQKBgQCQor6wOPu0ugM6XDsVNHWVSf+cOs9shxnNCzTJ\r\nMoCquxQchRpGZ60d+vC3a9GXZha8uzh5UfU5EUFc4OJXuoFcF0NxUsxrAK1k/VVT\r\nk1o+oXkRbthMTe2cPcGZIiT2XZAAFNP+3k6h+v+kmJ9pAHfJfa/M+uEaQdFDWYW6\r\nv+cI3wKBgQC4h+RTuhe5MdJTnnA7s/RLtxi1LsLldDsYNA7sx/jRuZZ6+gTXcbDc\r\nESEVWfQqyEnPLFBdjoItPIWrTIM1bSib4/P5zqjJxPfhi6tZ0iV6E7QYPG77t4dy\r\ngjzqCbssLnWPw0j/z6EZkE8Z3IYhMJx6XUm1jOeV0jGoiv9mUy+yiQ==\r\n-----END
+          RSA PRIVATE KEY-----"
+        csr_pem: |
+          -----BEGIN CERTIFICATE REQUEST-----
+          MIICgjCCAWoCAQAwPTELMAkGA1UEBhMCVVMxEDAOBgNVBAoMB1Bpdm90YWwxHDAa
+          BgNVBAMME3NzbF9yc2FfY2VydGlmaWNhdGUwggEiMA0GCSqGSIb3DQEBAQUAA4IB
+          DwAwggEKAoIBAQCo2WZwORUoAHjd6F8SAEp5Z204KA4wtCpFOmnUQWtPp9unp5g3
+          O7NpEVMxnAkkEcULXx8qVAwu+S3t/Jz/9lu6kiWDFnZzUeZIz/EGZw0ImVCascmq
+          oUApz1fNlyo36KGxEGf10zjyQfETlrr2okYa+idb2jyG+4srp8jOHcrciN1LNNaI
+          CROQKDSqgWOl49XfWRlxR4v88C9xUaqYhmT83V5nCgTWOUt/FGon/kvZNfQ2bJIH
+          K3UrhBKxr81HYvNXmFkGbB1JkKnuuCyeUIPRaiJMAZO3HAiIn21jWRx+ns5QwJl0
+          kJsXBYHSyi5YuNijgGUgDHBxbthvj0rxp0grAgMBAAGgADANBgkqhkiG9w0BAQUF
+          AAOCAQEAZ3y8eIwNrtMjDrOph56qlrHmF/9FgvwMDoVIbEO/kxJAVULJ4DSSjA9z
+          GWrEoeSLQq7Wngf3ZoySh2BLVxPkkh45eYsdufGP1G9JkGCac5qdIUEfhbv2qtHS
+          4hDUzcJx1+LG67nfswNDLbQRXT9KMrptHPUEKCR0O42FdFdn+jQ4qQf0juqso0F5
+          ug8JAvKoKQ+MC8QlSUOk2IAH1nbywgj0oPfLxMOc/hKHd+pB6XntpODBAZLsZy1h
+          TT+IiIAd3ZsTvs4kq942bjlGUiOH1edZspARJpLYFPT/sZBLVbaTzz4t7RjJ6TYk
+          eMCnhpjpU4BYH6/dLBu9O8i9iR1axw==
+          -----END CERTIFICATE REQUEST-----
+        cert_pem: "-----BEGIN CERTIFICATE-----\r\nMIIDGTCCAgGgAwIBAgIVANHqJcCuSB3ZsKJkvrQjgxSKf3BiMA0GCSqGSIb3DQEB\r\nBQUAMDcxCzAJBgNVBAYTAlVTMRAwDgYDVQQKDAdQaXZvdGFsMRYwFAYDVQQDDA0q\r\nLmNmLm5vbm8uY29tMB4XDTE1MDIyMDIzNTI1MloXDTE3MDIxOTIzNTI1MlowNzEL\r\nMAkGA1UEBhMCVVMxEDAOBgNVBAoMB1Bpdm90YWwxFjAUBgNVBAMMDSouY2Yubm9u\r\nby5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCo2WZwORUoAHjd\r\n6F8SAEp5Z204KA4wtCpFOmnUQWtPp9unp5g3O7NpEVMxnAkkEcULXx8qVAwu+S3t\r\n/Jz/9lu6kiWDFnZzUeZIz/EGZw0ImVCascmqoUApz1fNlyo36KGxEGf10zjyQfET\r\nlrr2okYa+idb2jyG+4srp8jOHcrciN1LNNaICROQKDSqgWOl49XfWRlxR4v88C9x\r\nUaqYhmT83V5nCgTWOUt/FGon/kvZNfQ2bJIHK3UrhBKxr81HYvNXmFkGbB1JkKnu\r\nuCyeUIPRaiJMAZO3HAiIn21jWRx+ns5QwJl0kJsXBYHSyi5YuNijgGUgDHBxbthv\r\nj0rxp0grAgMBAAGjHDAaMBgGA1UdEQQRMA+CDSouY2Yubm9uby5jb20wDQYJKoZI\r\nhvcNAQEFBQADggEBAGqKFOhFP4amT/gxI6pgZtuNxhHBiX+ziEvNi8wwg/kS7heO\r\nEfA4gvpWjwiTT/rnmC5LBiY+yBgME/5/pOeCfnIXelX4/moNvNb3UCRoAul9KLWl\r\njv6BGqD+1NcxSX9XzcrFULF0tfMLi3uPAU7ksdni3sJZBFs9KBgPpjNSQM700+nr\r\nRPyX7PBPwn6Yo3hQR/gwBxDits/ke6YfgVGiRdWjcivQnJhSrIQPUMdPBQSxn+Tq\r\nOxOjW7WQT/8PCK4yfYpi1AetwmWQE8bsSVHVjgLZd4c9hNrMKvXE1LSctYvxgtpl\r\nvNnl3hh34nWSrqGvE+isWicxQcia0jt0qKbZA2s=\r\n-----END
+          CERTIFICATE-----"
+    - definition: skip_cert_verify
+      value: true
+    partitions:
+    - guid: ha_proxy-part-c8d190e115dc649e7fca
+      installation_name: ha_proxy-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: nats
+    guid: nats-d9f6e585b055347ee50c
+    installation_name: nats
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 45c99a7702db3479
+        password: 845f06e46b142ded
+    - definition: credentials
+      value:
+        identity: nats
+        password: db88825a710e1ea20fdc
+    partitions:
+    - guid: nats-part-3cd6f76391d1ff0e8ed9
+      installation_name: nats-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: etcd_server
+    guid: etcd_server-985bc10aa1c53dd3cd71
+    installation_name: etcd_server
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 1024
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 1d968cbcfee995dc
+        password: eb1fa7f08a20d935
+    partitions:
+    - guid: etcd_server-part-31361622c3a52bd90c08
+      installation_name: etcd_server-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: health_manager
+    guid: health_manager-6fb3753f77a05daabfe3
+    installation_name: health_manager
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: b04682253f580b58
+        password: 8be553b061204253
+    partitions:
+    - guid: health_manager-part-32d28c28c2e27d515e53
+      installation_name: health_manager-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: nfs_server
+    guid: nfs_server-205f5edcd8e0a452fea7
+    installation_name: nfs_server
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 102400
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 5f3d9df060a3497a
+        password: 37e59446a55abe3d
+    partitions:
+    - guid: nfs_server-part-38b3c09232296014724c
+      installation_name: nfs_server-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: ccdb
+    guid: ccdb-1dc518ad02f11e25abf4
+    installation_name: ccdb
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 2048
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 3500c1876961ddfe
+        password: a0ae9c0b4be11e36
+    - definition: credentials
+      value:
+        identity: admin
+        password: c669a6e398a4cad72c39
+    partitions:
+    - guid: ccdb-part-02dcbf1cd771beac5015
+      installation_name: ccdb-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: cloud_controller
+    guid: cloud_controller-85655169aab323b926ff
+    installation_name: cloud_controller
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 4096
+    - definition: ephemeral_disk
+      value: 10240
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 5e52553df782a5c7
+        password: f5697ac8ea3d7d81
+    - definition: staging_upload_credentials
+      value:
+        identity: staging_upload_user
+        password: f2996b98a67a4ffb79ad
+    - definition: bulk_api_credentials
+      value:
+        identity: bulk_api
+        password: dfc6a06cd96548e99624
+    - definition: db_encryption_credentials
+      value:
+        identity: db_encryption
+        password: fce2c9114b9d46857e14
+    - definition: encrypt_key
+    - definition: max_file_size
+      value: 1024
+    - definition: disable_custom_buildpacks
+      value: false
+    - definition: system_domain
+      value: cf.nono.com
+    - definition: apps_domain
+      value: cf.nono.com
+    - definition: default_quota_memory_limit_mb
+      value: 10240
+    - definition: default_quota_max_number_services
+      value: 100
+    partitions:
+    - guid: cloud_controller-part-1f43ef100b61b15dd354
+      installation_name: cloud_controller-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: clock_global
+    guid: clock_global-0da88761d7e046a88fbf
+    installation_name: clock_global
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: e3a46fc839532add
+        password: 0cde7e29d1f7a992
+    partitions:
+    - guid: clock_global-part-dc541112ce1e7e118c58
+      installation_name: clock_global-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: cloud_controller_worker
+    guid: cloud_controller_worker-36065cd0796fb585bf8d
+    installation_name: cloud_controller_worker
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: f65477704a0f9b2b
+        password: c7514d819900d32b
+    partitions:
+    - guid: cloud_controller_worker-part-911a89df1c040e9147f1
+      installation_name: cloud_controller_worker-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: router
+    guid: router-19e3379eab999e31a3cf
+    installation_name: router
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: dca0cf15537e6d5b
+        password: b8eb565b710cf095
+    - definition: status_credentials
+      value:
+        identity: router_status
+        password: a353eecc9ce4dec32b11
+    - definition: static_ips
+    partitions:
+    - guid: router-part-91941a80d971861fe44e
+      installation_name: router-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: collector
+    guid: collector-7d6d12574709d5451670
+    installation_name: collector
+    instances:
+    - definition: instances
+      value: 0
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: bd847c7ef33cd677
+        password: d03f14de0ea54f5d
+    partitions:
+    - guid: collector-part-80d7fddd73618fa4f806
+      installation_name: collector-partition-752ed7e734e090230cf4
+      instance_count: 0
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: uaadb
+    guid: uaadb-adc7cd0c15257eefde8d
+    installation_name: uaadb
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 8192
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 9d612babacf2ddcd
+        password: f431123cbdc8f77b
+    - definition: credentials
+      value:
+        identity: root
+        password: d544d69ff5a82a192a9c
+    partitions:
+    - guid: uaadb-part-33070253dcbd7805605a
+      installation_name: uaadb-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: uaa
+    guid: uaa-aff3abeb856899392f70
+    installation_name: uaa
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 03996435de8d4b44
+        password: fbb6e91a1bc16fd9
+    - definition: admin_credentials
+      value:
+        identity: admin
+        password: e850aa8939c273036eff
+    - definition: push_console_credentials
+      value:
+        identity: push_console
+        password: d981201e211c375d57f3
+    - definition: run_smoke_tests_credentials
+      value:
+        identity: smoke_tests
+        password: e32ac7e60c56780e2d4c
+    - definition: system_services_credentials
+      value:
+        identity: system_services
+        password: a226962f247a7b278ce3
+    - definition: system_verification_credentials
+      value:
+        identity: system_verification
+        password: f6ba8ba097107aae67c3
+    - definition: system_passwords_client_credentials
+      value:
+        identity: system_passwords
+        password: d1fdca88ac178852bb59
+    - definition: login_client_credentials
+      value:
+        identity: login
+        password: b3c1aa55de71ac5d5b2e
+    - definition: console_client_credentials
+      value:
+        identity: portal
+        password: d754836f9f2ca4e3a193
+    - definition: autoscale_client_credentials
+      value:
+        identity: autoscaling_service
+        password: f347b673c4aac5a94eb0
+    - definition: cc_service_broker_client_credentials
+      value:
+        identity: cc_service_broker_client
+        password: d26f1338900c710e84c5
+    - definition: cc_client_credentials
+      value:
+        identity: cloud_controller
+        password: a385a682a0827b73bd3c
+    - definition: admin_client_credentials
+      value:
+        identity: admin
+        password: cae12003305613e0de3d
+    - definition: jwt_signing_key_credentials
+      value:
+        private_key_pem: |
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEowIBAAKCAQEAt42UwyvkMnHbkswoyIPPK235+AxoeadLL1adk8YGr1YdEktO
+          YRficlmK8Xec+1UdRNOi/+hKlSQFVE9Z09JRH6037mJjswtrtgjvAru+pPnonad9
+          2mi0KT9WT5Qs9eeafBc6uUtIvoZCHTYNSMKawrJEe5tQKWzuCjJwKl9sO8HR/xnY
+          TV/7txJ0PSr7X6eBimJQQihMaIHtya98tHA0j+6RWLihqpov8f6MM06RlM40G4fA
+          orkM81s/DjjUcO313TauqqhPY6Zo+0wIn0s8pbLxK4DRBgjI2vzOjDBpAcqrh19B
+          NZAIP0bOfxMyKFwslU4sBAOnhzrc14WLCAZhUwIDAQABAoIBAFmoYp3i9phdXS+b
+          YeBv4eYI1iz/gpjJysPYvyfLdsB2g8TH3AU5MXdBncjM8HUj4iQYbGosASJQcfn4
+          uJvrA41BgyyCCskOLxK/0l+3bSwQljtL8QGaW0Y6leJRMpT7CE7M2fZge6v00J6M
+          JHkB9a5cfW8TMljJyIxajsdjzO5yrTsU6MdfKnjsA7ggCydtpJjwLxMHHNmTh573
+          Z5HYyzj5o2OL29omnw8x93IyB+xq8YO+8JfjzmuI9/33ZLms1NOw37M/S2SUpwAN
+          9F/+3NCnkEOieO1ckIDFj+AXq/zcGkBksTkLB+H983SQ7tDeSr+bk1KTolhViN/x
+          MshTdCECgYEA8NU2FEYeMoiwLCtPSo0OVmrhFMo7r49gl5MsE84fjLO+ekFvgha7
+          GKttt1oDjAtf/fnU9niGgzD+46nwMeWro6lMnBFS4tduLI1CtqIeEz+75S/Hpl/o
+          OzB1pWJ+FPfOVYKKOgQRl0hE/G1rbAGdF+/SVmTc0lsIioSlJasl7bcCgYEAwxzi
+          rePxUj/D978ry2B9oGcGFBDHBxtXpJBHijieBrC9wxzr6kUAURhuS5ZEMPT7tf+I
+          FUACkdNRvaKqTgXrrXXcKalNwf0a39nUDorr3iJnQN2qKOQTdJOsCaxnOEToKJ+5
+          /D1T02pv6WZrpDrLRWm2KDq/64AiUWJfyEodKUUCgYA4kq1Ad/QyBL/1sDrRFW+P
+          x02WV6dLp0+Wa6EICfyJTdPp3iM2mOZcdjCwyHla1XU4MQ7g0xEuEj1d95aP8hau
+          vF9drggdd2PPHWPViSGtfeRCg0XQBGmGNez867UYcdnLZn3YAQqs0fI6pe19Eqf3
+          boOnfcwNsgrAl0ZAIgMn4wKBgGWGATlEM0x924VtFuejVJsDIHmOZVGAW7FIVcFJ
+          RojqrEL7KJJkxw5rbPCtxtvGjbccuH1+Khgg4haPrpgcoo5GloGjE8/N2I8D9ECA
+          7sxOEHYDIUhXrPvq3wjFiYwQ5tBElGz4qEaIyqSi4324Dg8XO25ha32p1bGNQ5Of
+          ZN8VAoGBANs8a0ETpT+MyUIt2wdHJKuPxHoTZMDiOCJL0aOgy/L5ycYNTKn+nbwq
+          tPjoRNeiv5owxxRXzoSplpPVGYUb9JGo6Dfumc4hdwKt4TE/ExZlr0ubBsbW3I72
+          pSRoteGRqZiTb5PEj5STQJIe4vQ7khDEmVlcuNegxeKhdrZ1IpR2
+          -----END RSA PRIVATE KEY-----
+    - definition: ldap_url
+    - definition: credentials
+    - definition: ldap_search_base
+    - definition: ldap_search_filter
+    - definition: ldap_server_ssl_cert
+    - definition: ldap_server_ssl_cert_alias
+    - definition: ldap_mail_attribute_name
+      value: mail
+    partitions:
+    - guid: uaa-part-718d560b8785fc726c85
+      installation_name: uaa-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: login
+    guid: login-0941fd77f154f96c30d2
+    installation_name: login
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 412994c86cc8fcf1
+        password: 3c9d0024f3ba24e4
+    - definition: service_provider_key_credentials
+      value:
+        private_key_pem: |
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEowIBAAKCAQEAphYhtNOyoiydW4kP6C0O4zOorsFo0M9raFMDqiYXGZlwtiZ/
+          7v2UDzVHQN4VWP6lrAiQsYYus/QAdjJjFh9mlEJ3lyPZKV2wNfWxk4IITuLjpET2
+          44zg6ileVvZjPJwwVaqg6UNiQNOrmFp245dziGoB/37u4wddornDScuNbxw1ThYa
+          ZR31dGtUPOMU4/UC+rNNPFr64YRf1vFiMfXyhoeg3NA8+Nt+ffvUSOM5aBwcFUYe
+          LpRVNcCEe8EQLtqFajuHm+M9ZIKFraMD6y+fqf3MK6dNkkn8SXnwG6D4fypO77C2
+          TSE3OrdQhmmofYYSi89EeCEQEtNmBAPNM3RiewIDAQABAoIBACRoKY9X8Ip4OS49
+          h00fw2mug0V7hBxxu1utBtqfauTjq79iBR1AXNpQlYP0qr1NZMenQQCJJ2evDwLZ
+          3LqWu4e4YjqxUwMsVFoft4NcN7IDLl9t9qi+0vbBhrqNXAeHPVkqBAfeC4WmYLEO
+          84zEQEEg67sz+e2uSapICjT8983pCKRC6D00W6HY1cn/K0ze8fTNv38JrUdVxl2j
+          pn/GFTKH6dVvwYIqv0VspFLXFWRkpC1o9nNsjczOnVrbIK/NuVkKmyLs2xFJLCb9
+          kKfVimxOWzMXcOB7/nARygMX7jaE5bdH9k30lfxQl7cHM+0sNb/HvcrJoDXAx+zT
+          /raKWUECgYEA0cIeeSStXadICemQQTp6W/vBmPz0iJ2PpGfzd3nFAK/bIqxGaLbL
+          ozU6RMH0S/UQKdc2eR6LaD0TmEC4dQEBaPmyh8Cd+kxSo1VYr8HPBaKtC9kxaKOn
+          uThjvKVK6crewYhlZvDnYl8o+7v9GgCgE7zle7Ibrx95biq0O6FwFfECgYEAyrNb
+          cqIL3DnUo9ZsyPgqzf18+o0Ap1m/q4NXgztn/Z/XE2y0nZaPIs9eal01tC+LYjix
+          4RKwn9Kj+W09yev6hUcohQPLBJ2VCibKtZNdyBPrAjrR6qLG6za33HxTHJiDEyf3
+          2WTxF4YCqJ8/fbHkaShFYsyEjx11vLrE3fjs4ysCgYEApcaINPACwBib+5GG+7ZO
+          y/GtcM7CKFJ2GtY4+fzX8JILW1zSDKIjUKqZkYvEGl/k1VyMZa75OHnEybikz3vq
+          9F8bdOSLNi0pxoKGI+nFRsvpfYq63NsyjFT/pjDwgtNdt5Cnq3LLO9i/WCybfPhv
+          iwnoSBlcfcwfOS0w4kvVfNECgYBUhfXcFzZa3sKMjx1NsC4pN0qmL6XWItaJ7nrP
+          fjYezEgjEXE/RUjqew4jzDpYqHq2um1yLRj5jBxUJfld+ci9Sq7ayHofspYzZXmh
+          vZGdnLCifWSLMtU/v9FrX2xIwE/n7QKs5CqkZH03UzBmeYeFUgWc7StZgi9WQ4tU
+          BDjDgQKBgE5QGH7vA+z1+80Q4OoBJP+Jk5D79YdRqqVhsDj30omth0yjPw/JyJef
+          o11LBLYK8+XvB/nDpZ/Vq/KGAOhRnC2gxK8sXk/38jTd0+SYjIysjR69JXld8rj4
+          oY+SiHC+a9kJi/0B6McXyQlRV51eUrDF8O7A2Skhq+R1qlIdTlRL
+          -----END RSA PRIVATE KEY-----
+        csr_pem: |
+          -----BEGIN CERTIFICATE REQUEST-----
+          MIICjzCCAXcCAQAwSjELMAkGA1UEBhMCVVMxEDAOBgNVBAoMB1Bpdm90YWwxKTAn
+          BgNVBAMMIHNlcnZpY2VfcHJvdmlkZXJfa2V5X2NyZWRlbnRpYWxzMIIBIjANBgkq
+          hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAphYhtNOyoiydW4kP6C0O4zOorsFo0M9r
+          aFMDqiYXGZlwtiZ/7v2UDzVHQN4VWP6lrAiQsYYus/QAdjJjFh9mlEJ3lyPZKV2w
+          NfWxk4IITuLjpET244zg6ileVvZjPJwwVaqg6UNiQNOrmFp245dziGoB/37u4wdd
+          ornDScuNbxw1ThYaZR31dGtUPOMU4/UC+rNNPFr64YRf1vFiMfXyhoeg3NA8+Nt+
+          ffvUSOM5aBwcFUYeLpRVNcCEe8EQLtqFajuHm+M9ZIKFraMD6y+fqf3MK6dNkkn8
+          SXnwG6D4fypO77C2TSE3OrdQhmmofYYSi89EeCEQEtNmBAPNM3RiewIDAQABoAAw
+          DQYJKoZIhvcNAQEFBQADggEBAFQLoBD7YCLPS1bcBawYLHGYTgM/okwJYkdqfoT6
+          3yCa9bl31sywHCPSU4v7d74qjSbDC3UJUnuMFrEg5nokUC7VECFcuwEOLE+/c+ET
+          8DWG0M+NaLiS9BDkw0Vc+2Ta/h4fA6XA7dwdt9eIPPhi8QZ7KThhabyKBZjUlwdV
+          rN9WFLgIHlk3QgXpYyyKO8UIgJQjSMVVU5sQ0t5gdtrctk+09oSgH9jtN+8IZa+g
+          8Fjar/SAyo8DXIm3GygdsAEHBgD6r8P9e+KvbIvOMWNymM8qlVZL2lMEKmV4BMhE
+          jwmIbvqfY/QXNd5MfblgUP6XwxGZX4FWvZM7UqWJwOgetm0=
+          -----END CERTIFICATE REQUEST-----
+        cert_pem: |
+          -----BEGIN CERTIFICATE-----
+          MIIDIDCCAgigAwIBAgIUA/jLmvIGz1msuISSQfiMowb8GJkwDQYJKoZIhvcNAQEF
+          BQAwSjELMAkGA1UEBhMCVVMxEDAOBgNVBAoMB1Bpdm90YWwxKTAnBgNVBAMMIHNl
+          cnZpY2VfcHJvdmlkZXJfa2V5X2NyZWRlbnRpYWxzMB4XDTE1MDIyMDIzNTMxNloX
+          DTE3MDIxOTIzNTMxNlowSjELMAkGA1UEBhMCVVMxEDAOBgNVBAoMB1Bpdm90YWwx
+          KTAnBgNVBAMMIHNlcnZpY2VfcHJvdmlkZXJfa2V5X2NyZWRlbnRpYWxzMIIBIjAN
+          BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAphYhtNOyoiydW4kP6C0O4zOorsFo
+          0M9raFMDqiYXGZlwtiZ/7v2UDzVHQN4VWP6lrAiQsYYus/QAdjJjFh9mlEJ3lyPZ
+          KV2wNfWxk4IITuLjpET244zg6ileVvZjPJwwVaqg6UNiQNOrmFp245dziGoB/37u
+          4wddornDScuNbxw1ThYaZR31dGtUPOMU4/UC+rNNPFr64YRf1vFiMfXyhoeg3NA8
+          +Nt+ffvUSOM5aBwcFUYeLpRVNcCEe8EQLtqFajuHm+M9ZIKFraMD6y+fqf3MK6dN
+          kkn8SXnwG6D4fypO77C2TSE3OrdQhmmofYYSi89EeCEQEtNmBAPNM3RiewIDAQAB
+          MA0GCSqGSIb3DQEBBQUAA4IBAQBYCsW46KFwpF1xO8NtJyGLNxIMrqdNivSxUVpG
+          7Vo6FToeq/8ft6gKC+lU6pM8j01S8pIEGVk7uP/GQ3Gvsg4CbmpNoP2XXG81rzlm
+          n2WFi5iR0d4yNCvSPK4fJ+u+afjcV0fkyR+kdgy+zvCYNiOwZ4baKULNGi5KNxQ4
+          +H3eiBfqBMiqUVO/goqunR5WiihWkUOmGxzsKTlpLywdHzLRIluvwIwa5FptUqdb
+          vp8a+dorDSsGfp5Zb6xdXKZ13u+Vkj86KDBf7zWSp8WNExwaX7BIaVnlfyWHZLlj
+          1uWZ/A2elAIf/8gvtbdu2QR/3H1SEIaQxPaK0zSBRY07BhtF
+          -----END CERTIFICATE-----
+    - definition: sso_url
+    partitions:
+    - guid: login-part-c9f6973a7c9d791fb383
+      installation_name: login-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: consoledb
+    guid: consoledb-0fb67f44bf52075ce4ec
+    installation_name: consoledb
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 1024
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 7d7ea91468b35cbf
+        password: 0d353a2146b38220
+    - definition: credentials
+      value:
+        identity: root
+        password: bc0cd06282aa80497c82
+    partitions:
+    - guid: consoledb-part-a4f0d9f1ee66c8ec5a80
+      installation_name: consoledb-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: mysql
+    guid: mysql-192e242addd6f24f55cd
+    installation_name: mysql
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 8192
+    - definition: ephemeral_disk
+      value: 30000
+    - definition: persistent_disk
+      value: 100000
+    - definition: cpu
+      value: 2
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: bfb35420014c22e3
+        password: edf55755d8b0cbc3
+    - definition: mysql_admin_credentials
+      value:
+        identity: root
+        password: fbc005c66290426b9a76
+    - definition: app_usage_credentials
+      value:
+        identity: app_usage
+        password: a4f7e6a3e129223b38d7
+    - definition: max_user_connections
+      value: 40
+    partitions:
+    - guid: mysql-part-d5c111052dc05505ed0c
+      installation_name: mysql-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: dea
+    guid: dea-3ceeb93a68344691bf91
+    installation_name: dea
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 16384
+    - definition: ephemeral_disk
+      value: 32768
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 2
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 3a46fa57325d2d32
+        password: d69973959c4cec00
+    - definition: loggregator_agent_status_credentials
+      value:
+        identity: d5fa90bc2a16de7270ce
+        password: f57a56f86665d4dae126
+    partitions:
+    - guid: dea-part-011a5593cd753d0512de
+      installation_name: dea-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: loggregator
+    guid: loggregator-bf27a7b97f439040b163
+    installation_name: loggregator
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 408844a093105c91
+        password: d468ad9b818a6a17
+    - definition: status_credentials
+      value:
+        identity: ddaf11a506662f0ac6c0
+        password: ea35e0af35964072a6a0
+    - definition: shared_secret_credentials
+      value:
+        identity: fe15abd65e29cf70d87b
+        password: b02c4fe67bd1ea5362a1
+    partitions:
+    - guid: loggregator-part-21bf71bcf5ae12b05bf7
+      installation_name: loggregator-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: loggregator_trafficcontroller
+    guid: loggregator_trafficcontroller-6e966527442c8d5b1c94
+    installation_name: loggregator_trafficcontroller
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 2048
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 0dca4b9d4d23359a
+        password: 3a3db38f8846e100
+    - definition: status_credentials
+      value:
+        identity: c1ee852703926bbef0a8
+        password: d0732047cf4d9d0af2ee
+    partitions:
+    - guid: loggregator_trafficcontroller-part-c1814692f65788991ca5
+      installation_name: loggregator_trafficcontroller-partition-752ed7e734e090230cf4
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: push-console
+    guid: push-console-2642c952c80c4ee5d5e4
+    installation_name: push-console
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 1024
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 58121251ecabbb35
+        password: e907f4475704eca3
+    - definition: secret_token
+      value:
+        secret: c6b4338c611e02e0b446
+    - definition: reply_to
+    - definition: from
+    - definition: smtp_address
+    - definition: smtp_port
+    - definition: smtp_helo_domain
+    - definition: smtp_credentials
+    - definition: smtp_authentication
+    - definition: smtp_enable_starttls_auto
+      value: false
+    partitions:
+    - guid: push-console-part-74225894c3a17890a317
+      installation_name: push-console
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: push-app-usage-service
+    guid: push-app-usage-service-9e3219ff823a40a111ac
+    installation_name: push-app-usage-service
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 1024
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 551caa0e6b011d75
+        password: 23ee57f64d0525e5
+    - definition: secret_token
+      value:
+        secret: ae1df79722300468be90
+    - definition: reply_to
+    - definition: from
+    - definition: smtp_address
+    - definition: smtp_port
+    - definition: smtp_helo_domain
+    - definition: smtp_credentials
+    - definition: smtp_authentication
+    - definition: smtp_enable_starttls_auto
+      value: false
+    partitions:
+    - guid: push-app-usage-service-part-3bf087c0fe2eb4e4e8e3
+      installation_name: push-app-usage-service
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: smoke-tests
+    guid: smoke-tests-5e102701d663b226ebac
+    installation_name: smoke-tests
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 1024
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: b856016b3309fc55
+        password: 1294723c3a5f0a0a
+    partitions:
+    - guid: smoke-tests-part-ebc3067cb588b6545ade
+      installation_name: smoke-tests
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: acceptance-tests
+    guid: acceptance-tests-36517abf6b47ab9772d6
+    installation_name: acceptance-tests
+    instances:
+    - definition: instances
+      value: 1
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 1024
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 1
+    properties:
+    - definition: vm_credentials
+      value:
+        identity: vcap
+        salt: 4ae5be8be0a1a316
+        password: ec27e7e44a824c11
+    partitions:
+    - guid: acceptance-tests-part-67e3e73dd18f8ce7ea70
+      installation_name: acceptance-tests
+      instance_count: 1
+      availability_zone_reference: 752ed7e734e090230cf4
+  - type: compilation
+    guid: compilation-2d2b3661c98615bde3ca
+    installation_name: compilation
+    instances:
+    - definition: instances
+      value: 4
+    resources:
+    - definition: ram
+      value: 1024
+    - definition: ephemeral_disk
+      value: 6144
+    - definition: persistent_disk
+      value: 0
+    - definition: cpu
+      value: 2
+    partitions:
+    - guid: compilation-part-cb06e2a37bfedde5a10b
+      installation_name: compilation-partition-752ed7e734e090230cf4
+      instance_count: 4
+      availability_zone_reference: 752ed7e734e090230cf4
+  properties:
+  - definition: syslog_host
+  - definition: syslog_port
+  - definition: syslog_protocol
