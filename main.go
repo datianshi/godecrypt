@@ -1,137 +1,108 @@
 package main
 
 import (
-	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/md5"
-	"crypto/rand"
-	"crypto/sha1"
+	"crypto/sha256"
 	"encoding/base64"
-	"encoding/hex"
-	"flag"
-	"fmt"
-	"io/ioutil"
-	"os"
+	"log"
 
-	"github.com/datianshi/yaml"
 	"golang.org/x/crypto/pbkdf2"
 )
 
-type Installation struct {
-	Data string `yaml:":data,binary"`
-	Salt string `yaml:":salt"`
-	Iv   string `yaml:":iv,binary"`
-	Md5  string `yaml:":md5"`
-}
-
 func main() {
-	enc := flag.Bool("e", false, "encrypt")
-	dec := flag.Bool("d", false, "decrypt")
-	flag.Parse()
-	if *enc {
-		err := encrypt()
-		if err != nil {
-			fmt.Println(err)
-		}
+	// 1.8
+	str, err := decrypt18("W9gqsW+Z+tcE61WDFbuCPvdzJIHgv5cILkTJzZWAtBhga5hfnI9Q5YNt6MZSzSI1", "153ce768", "W_XislJAhmKDiMQT7oHybm63_yyd9HLG")
+	if err != nil {
+		log.Fatal(err)
 	}
-	if *dec {
-		text, err := decrypt()
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println(text)
+	log.Printf("Foundation 1.8 autoscale password :%s", str)
+	// 2.1
+	str, err = decrypt("igNofYRgGrq8i9su+5mNYTrc+YIDw3NUIgIuPkRBhkx3Z9Y+EJKXDAu++WXaK7+r", "359f7a8c88fe1aea", "zP2vzTyH_wvwH-NlhSFTn2vB88QQT3Mf")
+	if err != nil {
+		log.Fatal(err)
 	}
+	log.Printf("Foundation 2.1 credhub password :%s", str)
 }
 
-func decrypt() (text string, err error) {
-	file, err := os.Open("encrypted.yml")
+var openSSLSaltHeader string = "Salted_"
+
+type OpenSSLCreds struct {
+	key []byte
+	iv  []byte
+}
+
+func decrypt18(data, salt, encryptKey string) (string, error) {
+	creds, err := extractOpenSSLCreds([]byte(encryptKey), []byte(salt))
 	if err != nil {
-		return
+		return "", err
 	}
-	data, err := ioutil.ReadAll(file)
+	block, err := aes.NewCipher(creds.key)
 	if err != nil {
-		return
+		return "", err
 	}
-	ins := Installation{}
-	err = yaml.Unmarshal(data, &ins)
 	if err != nil {
-		return
+		return "", err
 	}
-	key := pbkdf2.Key([]byte("welcome"), []byte(ins.Salt), 4096, 32, sha1.New)
+	encryptedData, err := base64.StdEncoding.DecodeString(data)
+	if err != nil {
+		return "", err
+	}
+	decryptData := encryptedData
+	mode := cipher.NewCBCDecrypter(block, creds.iv)
+
+	mode.CryptBlocks(decryptData, encryptedData)
+	if err != nil {
+		log.Print(err)
+	}
+	return (string(decryptData)), nil
+}
+
+func decrypt(data, salt, encryptKey string) (string, error) {
+	key := pbkdf2.Key([]byte(encryptKey), []byte(salt), 2048, 16, sha256.New)
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		return
+		return "", err
 	}
-	ivData, err := base64.StdEncoding.DecodeString(ins.Iv)
 	if err != nil {
-		return
+		return "", err
 	}
-	encryptedData, err := base64.StdEncoding.DecodeString(ins.Data)
+	encryptedData, err := base64.StdEncoding.DecodeString(data)
 	if err != nil {
-		return
+		return "", err
 	}
-	var decryptData []byte = []byte(encryptedData)
-	mode := cipher.NewCBCDecrypter(block, ivData)
+	var decryptData = encryptedData
+	mode := cipher.NewCBCDecrypter(block, []byte(salt))
 
-	mode.CryptBlocks(decryptData, []byte(encryptedData))
-	unpadData := PKCS5UnPadding(decryptData)
-	fmt.Printf("%x", md5.Sum(unpadData))
-	return (string(unpadData)), nil
+	mode.CryptBlocks(decryptData, encryptedData)
+	return (string(decryptData)), nil
 }
 
-func encrypt() (err error) {
-	file, err := os.Open("installation.yml")
-	if err != nil {
-		return
+func extractOpenSSLCreds(password, salt []byte) (OpenSSLCreds, error) {
+	prev := []byte{}
+	m0 := hash(prev, password, salt)
+	for i := 1; i < 2048; i++ {
+		m0 = md5sum(m0)
 	}
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		return
+	m1 := hash(m0, password, salt)
+	for i := 1; i < 2048; i++ {
+		m1 = md5sum(m1)
 	}
-	sum := md5.Sum(data)
-	salt := generateSalt()
-	key := pbkdf2.Key([]byte("welcome"), []byte(salt), 4096, 32, sha1.New)
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return
-	}
-	ivData := generateIV(block.BlockSize())
-	mode := cipher.NewCBCEncrypter(block, ivData)
-	paddedData := PKCS5Padding(data, block.BlockSize())
-	mode.CryptBlocks(paddedData, paddedData)
-	ins := Installation{
-		Data: string(paddedData),
-		Iv:   string(ivData),
-		Salt: salt,
-		Md5:  hex.EncodeToString(sum[:]),
-	}
-	result, err := yaml.Marshal(&ins)
-	if err != nil {
-		return
-	}
-	fmt.Printf(string(result))
-	return
-}
-func generateIV(size int) []byte {
-	b := make([]byte, size)
-	rand.Read(b)
-	return b
-}
-func generateSalt() string {
-	c := 10
-	b := make([]byte, c)
-	rand.Read(b)
-	return hex.EncodeToString(b)
+
+	return OpenSSLCreds{key: m0, iv: m1}, nil
 }
 
-func PKCS5UnPadding(src []byte) []byte {
-	length := len(src)
-	unpadding := int(src[length-1])
-	return src[:(length - unpadding)]
+func hash(prev, password, salt []byte) []byte {
+	a := make([]byte, len(prev)+len(password)+len(salt))
+	copy(a, prev)
+	copy(a[len(prev):], password)
+	copy(a[len(prev)+len(password):], salt)
+	return md5sum(a)
 }
-func PKCS5Padding(src []byte, blockSize int) []byte {
-	padding := blockSize - len(src)%blockSize
-	padtext := bytes.Repeat([]byte{byte(padding)}, padding)
-	return append(src, padtext...)
+
+func md5sum(data []byte) []byte {
+	h := md5.New()
+	h.Write(data)
+	return h.Sum(nil)
 }
